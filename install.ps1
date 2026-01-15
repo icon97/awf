@@ -1,8 +1,9 @@
 # AWF Installer for Windows (PowerShell)
-# Supports: Per-Project & Global installation
+# ⚠️ QUAN TRỌNG: Chạy lệnh này trong Terminal của Antigravity/Cursor, KHÔNG PHẢI CMD/PowerShell bên ngoài!
 
 param(
-    [switch]$Global
+    [switch]$Global,
+    [switch]$Link
 )
 
 $RepoUrl = "https://raw.githubusercontent.com/TUAN130294/awf/main/workflows"
@@ -13,16 +14,47 @@ $Workflows = @(
     "audit.md", "cloudflare-tunnel.md", "README.md"
 )
 
-# Determine target directory
+$GlobalDir = "$env:USERPROFILE\AWF-Workflows"
+
+# Mode selection
 if ($Global) {
-    $TargetDir = "$env:USERPROFILE\.agent\workflows"
-    Write-Host "🌍 Chế độ GLOBAL: Cài vào $TargetDir" -ForegroundColor Cyan
-} else {
+    Write-Host ""
+    Write-Host "🌍 CHẾ ĐỘ GLOBAL: Cài vào thư mục trung tâm" -ForegroundColor Cyan
+    Write-Host "   Đường dẫn: $GlobalDir" -ForegroundColor DarkGray
+    Write-Host ""
+    $TargetDir = $GlobalDir
+} elseif ($Link) {
+    Write-Host ""
+    Write-Host "🔗 CHẾ ĐỘ LINK: Copy từ thư mục trung tâm vào project hiện tại" -ForegroundColor Cyan
+    Write-Host ""
+    
+    if (-not (Test-Path $GlobalDir)) {
+        Write-Host "❌ Chưa cài Global! Chạy lệnh sau trước:" -ForegroundColor Red
+        Write-Host '   iex "& { $(irm https://raw.githubusercontent.com/TUAN130294/awf/main/install.ps1) } -Global"' -ForegroundColor Yellow
+        exit
+    }
+    
     $TargetDir = ".agent\workflows"
-    Write-Host "📁 Chế độ PROJECT: Cài vào thư mục hiện tại" -ForegroundColor Cyan
+    if (-not (Test-Path $TargetDir)) {
+        New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
+    }
+    
+    Copy-Item -Path "$GlobalDir\*" -Destination $TargetDir -Recurse -Force
+    Write-Host "✅ Đã copy AWF workflows vào project!" -ForegroundColor Green
+    Write-Host "   Từ: $GlobalDir" -ForegroundColor DarkGray
+    Write-Host "   Đến: $TargetDir" -ForegroundColor DarkGray
+    exit
+} else {
+    Write-Host ""
+    Write-Host "📁 CHẾ ĐỘ PROJECT: Cài vào thư mục hiện tại" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "⚠️  LƯU Ý: Hãy chắc chắn bạn đang chạy lệnh này trong:" -ForegroundColor Yellow
+    Write-Host "   Terminal của Antigravity/Cursor (bên trong IDE)" -ForegroundColor Yellow
+    Write-Host "   KHÔNG PHẢI CMD/PowerShell bên ngoài!" -ForegroundColor Yellow
+    Write-Host ""
+    $TargetDir = ".agent\workflows"
 }
 
-Write-Host ""
 Write-Host "🚀 Đang cài đặt Antigravity Workflow Framework (AWF)..." -ForegroundColor Yellow
 Write-Host ""
 
@@ -54,11 +86,13 @@ Write-Host "🎉 Hoàn tất! Đã cài $success/$($Workflows.Count) workflows."
 
 if ($Global) {
     Write-Host ""
-    Write-Host "📌 LƯU Ý: Đây là cài đặt Global." -ForegroundColor Cyan
-    Write-Host "   Antigravity sẽ tự động nhận diện nếu support global workflows." -ForegroundColor DarkGray
-    Write-Host "   Nếu không, hãy chạy lệnh sau trong mỗi project mới:" -ForegroundColor DarkGray
+    Write-Host "📌 ĐÃ CÀI GLOBAL!" -ForegroundColor Cyan
+    Write-Host "   AWF đã được lưu tại: $GlobalDir" -ForegroundColor DarkGray
     Write-Host ""
-    Write-Host "   iex (irm https://raw.githubusercontent.com/TUAN130294/awf/main/install.ps1)" -ForegroundColor White
+    Write-Host "👉 Với mỗi project MỚI, chỉ cần chạy (trong Terminal của Antigravity):" -ForegroundColor White
+    Write-Host '   iex "& { $(irm https://raw.githubusercontent.com/TUAN130294/awf/main/install.ps1) } -Link"' -ForegroundColor Green
+    Write-Host ""
+    Write-Host "   Lệnh trên sẽ copy nhanh AWF vào project chỉ trong 1 giây!" -ForegroundColor DarkGray
 } else {
     Write-Host ""
     Write-Host "👉 Restart Antigravity/IDE để nhận diện lệnh mới." -ForegroundColor Cyan
