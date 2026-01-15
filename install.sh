@@ -1,6 +1,6 @@
 #!/bin/bash
 # AWF Installer for Mac/Linux
-# ⚠️ QUAN TRỌNG: Chạy lệnh này trong Terminal của Antigravity/Cursor, KHÔNG PHẢI Terminal bên ngoài!
+# Tự động detect Antigravity Global Workflows
 
 REPO_URL="https://raw.githubusercontent.com/TUAN130294/awf/main/workflows"
 WORKFLOWS=(
@@ -10,92 +10,54 @@ WORKFLOWS=(
     "audit.md" "cloudflare-tunnel.md" "README.md"
 )
 
-GLOBAL_DIR="$HOME/AWF-Workflows"
-
-# Parse arguments
-MODE="project"
-for arg in "$@"; do
-    case $arg in
-        --global|-g) MODE="global" ;;
-        --link|-l) MODE="link" ;;
-    esac
-done
+# Detect paths
+ANTIGRAVITY_GLOBAL="$HOME/.gemini/antigravity/global_workflows"
+GEMINI_MD="$HOME/.gemini/GEMINI.md"
 
 echo ""
-
-if [[ "$MODE" == "global" ]]; then
-    echo "🌍 CHẾ ĐỘ GLOBAL: Cài vào thư mục trung tâm"
-    echo "   Đường dẫn: $GLOBAL_DIR"
-    echo ""
-    TARGET_DIR="$GLOBAL_DIR"
-    
-elif [[ "$MODE" == "link" ]]; then
-    echo "🔗 CHẾ ĐỘ LINK: Copy từ thư mục trung tâm vào project hiện tại"
-    echo ""
-    
-    if [[ ! -d "$GLOBAL_DIR" ]]; then
-        echo "❌ Chưa cài Global! Chạy lệnh sau trước:"
-        echo '   curl -fsSL https://raw.githubusercontent.com/TUAN130294/awf/main/install.sh | sh -s -- --global'
-        exit 1
-    fi
-    
-    TARGET_DIR=".agent/workflows"
-    mkdir -p "$TARGET_DIR"
-    cp -r "$GLOBAL_DIR"/* "$TARGET_DIR/"
-    
-    echo "✅ Đã copy AWF workflows vào project!"
-    echo "   Từ: $GLOBAL_DIR"
-    echo "   Đến: $TARGET_DIR"
-    exit 0
-    
-else
-    echo "📁 CHẾ ĐỘ PROJECT: Cài vào thư mục hiện tại"
-    echo ""
-    echo "⚠️  LƯU Ý: Hãy chắc chắn bạn đang chạy lệnh này trong:"
-    echo "   Terminal của Antigravity/Cursor (bên trong IDE)"
-    echo "   KHÔNG PHẢI Terminal bên ngoài!"
-    echo ""
-    TARGET_DIR=".agent/workflows"
-fi
-
-echo "🚀 Đang cài đặt Antigravity Workflow Framework (AWF)..."
+echo "╔══════════════════════════════════════════════════════════╗"
+echo "║     🚀 AWF - Antigravity Workflow Framework v3.0         ║"
+echo "╚══════════════════════════════════════════════════════════╝"
 echo ""
 
-# Create directory
-mkdir -p "$TARGET_DIR"
+# 1. Cài Global Workflows
+mkdir -p "$ANTIGRAVITY_GLOBAL"
+echo "✅ Antigravity Global Path: $ANTIGRAVITY_GLOBAL"
 
-# Download files
+echo "⏳ Đang tải workflows..."
 success=0
-failed=0
 for wf in "${WORKFLOWS[@]}"; do
-    if curl -f -s -o "$TARGET_DIR/$wf" "$REPO_URL/$wf"; then
+    if curl -f -s -o "$ANTIGRAVITY_GLOBAL/$wf" "$REPO_URL/$wf"; then
         echo "   ✅ $wf"
         ((success++))
     else
-        echo "   ❌ $wf (Lỗi tải)"
-        ((failed++))
+        echo "   ❌ $wf"
     fi
 done
 
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🎉 Hoàn tất! Đã cài $success/${#WORKFLOWS[@]} workflows."
+# 2. Update Global Rules
+AWF_INSTRUCTIONS='
+# AWF - Antigravity Workflow Framework
+Bạn đã được cài đặt AWF. Khi user dùng lệnh /, hãy đọc file workflow tương ứng trong ~/.gemini/antigravity/global_workflows/:
+- /plan, /code, /visualize, /deploy, /debug, /test, /run
+- /init, /recap, /save-brain, /audit, /refactor, /rollback
+'
 
-if [[ "$MODE" == "global" ]]; then
-    echo ""
-    echo "📌 ĐÃ CÀI GLOBAL!"
-    echo "   AWF đã được lưu tại: $GLOBAL_DIR"
-    echo ""
-    echo "👉 Với mỗi project MỚI, chỉ cần chạy (trong Terminal của Antigravity):"
-    echo '   curl -fsSL https://raw.githubusercontent.com/TUAN130294/awf/main/install.sh | sh -s -- --link'
-    echo ""
-    echo "   Lệnh trên sẽ copy nhanh AWF vào project chỉ trong 1 giây!"
+mkdir -p "$HOME/.gemini"
+if [ ! -f "$GEMINI_MD" ]; then
+    echo "$AWF_INSTRUCTIONS" > "$GEMINI_MD"
+    echo "✅ Đã tạo Global Rules (GEMINI.md)"
 else
-    echo ""
-    echo "👉 Restart Antigravity/IDE để nhận diện lệnh mới."
-    echo "👉 Gõ '/' trong chat để thấy các siêu lệnh!"
+    if ! grep -q "AWF - Antigravity Workflow Framework" "$GEMINI_MD"; then
+        echo "$AWF_INSTRUCTIONS" >> "$GEMINI_MD"
+        echo "✅ Đã cập nhật Global Rules (GEMINI.md)"
+    fi
 fi
 
 echo ""
-echo "📖 Hướng dẫn: https://tuan130294.github.io/awsweb"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎉 HOÀN TẤT! Đã cài $success workflows vào hệ thống."
+echo ""
+echo "👉 Bạn có thể dùng AWF ở BẤT KỲ project nào ngay lập tức!"
+echo "👉 Thử gõ '/plan' để kiểm tra."
 echo ""
