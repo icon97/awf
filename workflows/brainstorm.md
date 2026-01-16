@@ -50,6 +50,37 @@ Sau khi hiểu, tóm tắt:
    Đúng chưa anh?"
 ```
 
+### 1.4. ⚠️ Hỏi về Loại Sản Phẩm (QUAN TRỌNG!)
+```
+"📱 Anh muốn làm loại sản phẩm nào?
+
+1️⃣ **Web App** (Recommended)
+   - Chạy trên trình duyệt (Chrome, Safari...)
+   - Không cần cài đặt, dùng ngay
+   - Hoạt động trên mọi thiết bị
+
+2️⃣ **Mobile App**
+   - App trên điện thoại (iOS/Android)
+   - Cần đăng lên App Store/Play Store
+   - Có thể dùng offline
+
+3️⃣ **Desktop App**
+   - Phần mềm trên máy tính (Windows/Mac)
+   - Cần cài đặt
+
+4️⃣ **Landing Page / Website**
+   - Trang giới thiệu, không có nhiều tính năng
+   - Chủ yếu hiển thị thông tin
+
+5️⃣ **Chưa biết - Em tư vấn giúp**
+   - Em sẽ gợi ý dựa trên ý tưởng của anh"
+```
+
+**Nếu User chọn 5 (Chưa biết):**
+- Nếu cần nhiều tương tác, data → Gợi ý **Web App**
+- Nếu cần offline, push notification → Gợi ý **Mobile App**
+- Nếu chỉ giới thiệu sản phẩm → Gợi ý **Landing Page**
+
 ---
 
 ## Giai đoạn 2: Research Thị Trường (Nếu User Cần)

@@ -9,7 +9,7 @@ WORKFLOWS=(
     "debug.md" "refactor.md" "test.md" "run.md"
     "init.md" "recap.md" "rollback.md" "save_brain.md"
     "audit.md" "cloudflare-tunnel.md" "awf-update.md"
-    "brainstorm.md" "next.md" "README.md"
+    "brainstorm.md" "next.md" "customize.md" "README.md"
 )
 
 # Detect paths
@@ -76,6 +76,7 @@ Bạn PHẢI đọc file workflow tương ứng và thực hiện theo hướng 
 | `/init` | ~/.gemini/antigravity/global_workflows/init.md | Khởi tạo dự án |
 | `/recap` | ~/.gemini/antigravity/global_workflows/recap.md | Khôi phục ngữ cảnh |
 | `/next` | ~/.gemini/antigravity/global_workflows/next.md | Gợi ý bước tiếp theo |
+| `/customize` | ~/.gemini/antigravity/global_workflows/customize.md | ⚙️ Cá nhân hóa AI |
 | `/save-brain` | ~/.gemini/antigravity/global_workflows/save_brain.md | Lưu kiến thức |
 | `/audit` | ~/.gemini/antigravity/global_workflows/audit.md | Kiểm tra bảo mật |
 | `/refactor` | ~/.gemini/antigravity/global_workflows/refactor.md | Tái cấu trúc code |

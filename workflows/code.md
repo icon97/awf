@@ -167,10 +167,30 @@ User thường QUÊN những thứ này. AI phải TỰ THÊM:
 
 #### A. Đọc lại mockup trước khi code
 *   Mở file mockup/design đã tạo
+*   **QUAN TRỌNG:** Xác định LAYOUT trước (grid, flex, columns)
 *   Xác định chính xác: colors, fonts, spacing, shadows
 *   Note lại các breakpoints cần responsive
 
-#### B. Pixel-Perfect Checklist
+#### B. Layout Checklist (KIỂM TRA ĐẦU TIÊN!)
+```
+⚠️ LỖI THƯỜNG GẶP: Code ra 1 cột thay vì grid như mockup!
+
+□ Layout type: Grid hay Flex?
+□ Số columns: 2, 3, 4 cột?
+□ Gap giữa các items: 16px, 24px, 32px?
+□ Mockup có 6 cards xếp 3x2 → Code PHẢI là grid-cols-3
+□ Mockup có sidebar → Code PHẢI có sidebar
+□ Mockup có header fixed → Code PHẢI có header fixed
+```
+
+**VÍ DỤ CỤ THỂ:**
+```
+Mockup hiển thị: 6 cards xếp thành 2 hàng, mỗi hàng 3 cards
+→ Code ĐÚNG: grid grid-cols-3 gap-6
+→ Code SAI: flex flex-col (sẽ ra 1 cột!)
+```
+
+#### C. Pixel-Perfect Checklist
 ```
 □ Colors đúng hex code từ mockup
 □ Font-family, font-size, font-weight đúng
