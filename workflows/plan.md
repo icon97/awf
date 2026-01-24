@@ -21,41 +21,63 @@ if technical_level == "newbie":
     → DB schema dùng ngôn ngữ đời thường
 ```
 
-### Flowchart cho newbie:
+### Flowchart theo level:
 
+**Newbie (ẩn kỹ thuật):**
 ```
-❌ ĐỪNG chỉ show mermaid code:
+"📊 Luồng hoạt động:
+ 1. Mở app → 2. Đăng nhập → 3. Vào Dashboard"
+```
+
+**Basic (giải thích + show tech):**
+```
+"📊 Luồng hoạt động:
+ 1. Mở app → 2. Đăng nhập → 3. Vào Dashboard
+
+ 💡 Đây là 'Flowchart' - sơ đồ các bước.
+ Viết bằng Mermaid (ngôn ngữ vẽ sơ đồ):
+
+ graph TD
+     A[User] --> B[Login] --> C[Dashboard]
+
+ Mũi tên (-->) nghĩa là 'đi đến bước tiếp theo'"
+```
+
+**Technical (chỉ show tech):**
+```
 graph TD
     A[User] --> B[Login] --> C[Dashboard]
-
-✅ NÊN giải thích trước:
-"📊 Luồng hoạt động của app:
- 1. Người dùng mở app
- 2. Đăng nhập bằng email/mật khẩu
- 3. Vào trang Dashboard xem tổng quan
-
- (Hình bên dưới minh họa các bước này)"
 ```
 
-### Database Schema cho newbie:
+### Database Schema theo level:
 
+**Newbie (ẩn kỹ thuật):**
 ```
-❌ ĐỪNG dùng thuật ngữ kỹ thuật:
-"Table Users với columns: id, email, password_hash, created_at
- Foreign key user_id references Users"
+"📦 App lưu: Thông tin user, đơn hàng
+ 🔗 1 user có nhiều đơn hàng"
+```
 
-✅ NÊN giải thích bằng ví dụ:
-"📦 App cần lưu trữ:
+**Basic (giải thích + show tech):**
+```
+"📦 App lưu trữ:
+ • Users: email, mật khẩu
+ • Orders: tổng tiền, trạng thái
 
- 👤 Thông tin người dùng:
-    • Email, mật khẩu (để đăng nhập)
-    • Ngày tạo tài khoản
+ 💡 Đây là 'Database Schema' - cấu trúc lưu dữ liệu.
+ 'Table' = bảng dữ liệu (như sheet Excel)
+ 'Foreign key' = liên kết giữa 2 bảng
 
- 🛒 Thông tin đơn hàng:
-    • Ai đặt (liên kết với người dùng)
-    • Tổng tiền, trạng thái
+ Tables:
+ - users (id, email, password_hash)
+ - orders (id, user_id, total) ← user_id liên kết đến users"
+```
 
- 🔗 Quan hệ: 1 người có thể đặt nhiều đơn hàng"
+**Technical (chỉ show tech):**
+```
+Tables:
+- users: id, email, password_hash, created_at
+- orders: id, user_id, total, status
+FK: orders.user_id → users.id
 ```
 
 ### Thuật ngữ planning cho newbie:
