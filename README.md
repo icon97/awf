@@ -6,7 +6,7 @@
 *Turn your ideas into apps without coding knowledge. AI handles everything.*
 *Biến ý tưởng thành App mà không cần biết code. AI lo trọn gói.*
 
-**v4.0 Phase 01:** Auto session restore · Adaptive language for all levels · 17+ foundation workflows
+**v4.0:** 5 Hidden Skills · 12 Non-Tech Mode Workflows · Error Translation · Flowchart Explanations
 
 [![Website](https://img.shields.io/badge/Website-Live_Demo-cyan?style=for-the-badge)](https://awfweb.pages.dev/)
 [![Install Global](https://img.shields.io/badge/Install-Global-blue?style=for-the-badge)](#-installation-global)
@@ -40,10 +40,22 @@
 **AWF is a suite of 17+ Global Workflows for everyone - from beginners to pros.**
 *AWF là bộ 17+ lệnh Global cho mọi người - từ người mới đến chuyên gia.*
 
-**What's New in v4.0 Phase 01:**
-- Auto session restore (your context is remembered automatically)
-- Adaptive language (AI explains jargon for beginners, uses tech terms for pros)
-- Enhanced preferences for personalization
+**What's New in v4.0:**
+
+🎯 **5 Hidden Skills** (tự động, user không cần biết):
+| Skill | Chức năng |
+|-------|-----------|
+| awf-session-restore | Nhớ context giữa các session |
+| awf-adaptive-language | Điều chỉnh ngôn ngữ theo trình độ |
+| awf-error-translator | Dịch 50+ lỗi sang tiếng người |
+| awf-onboarding | Hướng dẫn user mới |
+| awf-context-help | Trợ giúp thông minh theo context |
+
+📝 **12 Workflows với Non-Tech Mode:**
+- Flowchart kèm giải thích bằng lời
+- Database schema mô tả đời thường
+- Lỗi được dịch + hướng dẫn sửa
+- Bảng thuật ngữ trong mỗi workflow
 
 ### For Beginners (Dành cho người mới):
 *   **Brainstorm First**: Discuss ideas, research market, clarify vision (`/brainstorm`).
@@ -243,6 +255,40 @@ AI: "Em tổng hợp lại:
 
 ---
 
+## 🆕 v4.0 Non-Tech Mode Examples
+
+### Before (v3.x) vs After (v4.0)
+
+**Error Messages:**
+```
+❌ v3.x: "ECONNREFUSED 127.0.0.1:5432"
+✅ v4.0: "Database chưa bật → Mở app PostgreSQL lên!"
+```
+
+**Database Schema:**
+```
+❌ v3.x: "Table Users với columns: id, email, password_hash"
+✅ v4.0: "📦 App lưu: Thông tin người dùng (email, mật khẩu)"
+```
+
+**Flowchart:**
+```
+❌ v3.x: graph TD A[User] --> B[Login]
+✅ v4.0: "📊 Luồng: 1. Mở app → 2. Đăng nhập → 3. Vào Dashboard"
+```
+
+### How to Enable Non-Tech Mode
+
+```bash
+# Tạo file preferences trong project
+mkdir -p .brain
+echo '{"technical":{"technical_level":"newbie"}}' > .brain/preferences.json
+
+# Hoặc chạy /customize để AI hướng dẫn
+```
+
+---
+
 *Built by Antigravity in Vibe Coding Mode.*
 *AWF v4.0 - For everyone, from beginners to pros.*
-*Phase 01 Foundation Skills: Auto session restore · Adaptive language · 17+ workflows*
+*5 Hidden Skills · 12 Non-Tech Workflows · 17+ Commands*
