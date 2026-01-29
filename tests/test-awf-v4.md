@@ -1,10 +1,10 @@
-# AWF v4.0 Test Plan
+# AWF v5.0.1 Test Plan
 
 ## Quick Test Checklist
 
 ### Prerequisites
 ```bash
-# 1. Install AWF v4.0
+# 1. Install AWF v5.0.1
 # Windows:
 powershell -ExecutionPolicy Bypass -File install.ps1
 # Mac/Linux:
@@ -133,10 +133,10 @@ Test each workflow with `technical_level: "newbie"`:
 ### Test Steps
 1. Remove preferences.json (use defaults)
 2. Run any workflow (`/plan`, `/code`, `/debug`)
-3. **Expected:** Works exactly like v3.4
+3. **Expected:** Works exactly like v4.0
 
 ### Pass Criteria
-- [ ] All v3.4 commands work
+- [ ] All v4.0 commands work
 - [ ] No errors without preferences.json
 - [ ] Default behavior unchanged
 
@@ -161,9 +161,9 @@ Test each workflow with `technical_level: "newbie"`:
 
 ```bash
 #!/bin/bash
-# test-awf-v4.sh
+# test-awf-v5.sh
 
-echo "🧪 AWF v4.0 Test Suite"
+echo "🧪 AWF v5.0.1 Test Suite"
 echo "======================"
 
 # Check skills installed
@@ -184,8 +184,8 @@ else
 fi
 
 # Check version
-echo -n "Version 4.0.0: "
-if grep -q "4.0.0" ~/.gemini/awf_version; then
+echo -n "Version 5.0.1: "
+if grep -q "5.0.1" ~/.gemini/awf_version; then
   echo "✅"
 else
   echo "❌"
@@ -193,7 +193,7 @@ fi
 
 echo ""
 echo "Manual tests required for full validation."
-echo "See test-awf-v4.md for details."
+echo "See test-awf-v5.md for details."
 ```
 
 ---

@@ -37,7 +37,7 @@ GEMINI_MD="$HOME/.gemini/GEMINI.md"
 AWF_VERSION_FILE="$HOME/.gemini/awf_version"
 
 # Get version from repo
-CURRENT_VERSION=$(curl -s "$REPO_BASE/VERSION" 2>/dev/null || echo "3.4.0")
+CURRENT_VERSION=$(curl -s "$REPO_BASE/VERSION" 2>/dev/null || echo "5.0.1")
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════╗"

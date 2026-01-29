@@ -1,4 +1,4 @@
-# 🚀 Antigravity Vibe Coding Suite v3.4 (Ultimate Edition)
+# 🚀 Antigravity Workflow Framework v5.0.1
 
 **Hệ thống Workflow TOÀN DIỆN cho Vibe Coders** - Chỉ cần có ý tưởng, AI lo trọn gói.
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 Danh sách lệnh (14 Workflows)
+## 📋 Danh sách lệnh (20 Workflows)
 
 ### 🌟 Khởi động & Ngữ cảnh
 | Lệnh | Mô tả | Điểm mù được xử lý |
@@ -41,6 +41,15 @@
 | Lệnh | Mô tả | Điểm mù được xử lý |
 |------|-------|-------------------|
 | `/cloudflare-tunnel` | Expose app ra internet | Tunnel management |
+
+### 🎮 Game Development
+| Lệnh | Mô tả | Điểm mù được xử lý |
+|------|-------|-------------------|
+| `/build-ue` | UE5 build management | Build configs, Packaging |
+| `/blueprint` | Blueprint management | BP organization, Optimization |
+| `/assets` | Asset pipeline | Import, Optimization, LODs |
+| `/docs-sync` | Documentation sync | Code-docs consistency |
+| `/multiplayer` | Multiplayer setup | Replication, Sessions |
 
 ---
 
@@ -92,7 +101,7 @@
 
 ---
 
-## 🚀 Auto Workflow - v3.4 (MỚI!)
+## 🚀 Auto Workflow - v5.0.1
 
 ### Vấn đề v3.3
 - `/plan` chỉ tạo 1 file spec, phải tự chia phases
@@ -303,7 +312,7 @@ AI hỏi bằng tiếng Việt:
 
 ---
 
-## 📊 Thống kê hệ thống v3.4
+## 📊 Thống kê hệ thống v5.0.1
 
 | Workflow | Size | Chất lượng |
 |----------|------|------------|
@@ -322,7 +331,7 @@ AI hỏi bằng tiếng Việt:
 | `/recap` | 2.4KB | ⭐⭐⭐⭐ Good |
 | `/rollback` | 2.2KB | ⭐⭐⭐⭐ Good |
 
-**Tổng:** 14 workflows | **~60KB** instructions | **50+ điểm mù** được xử lý
+**Tổng:** 20 workflows | **~75KB** instructions | **60+ điểm mù** được xử lý
 
 ---
 
@@ -336,4 +345,4 @@ AI hỏi bằng tiếng Việt:
 
 ---
 
-*Antigravity Vibe Coding Suite v3.4 - Your dreams, our engineering.*
+*Antigravity Workflow Framework v5.0.1 - Your dreams, our engineering.*

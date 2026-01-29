@@ -39,7 +39,7 @@ $AwfVersionFile = "$env:USERPROFILE\.gemini\awf_version"
 try {
     $CurrentVersion = (Invoke-WebRequest -Uri "$RepoBase/VERSION" -UseBasicParsing).Content.Trim()
 } catch {
-    $CurrentVersion = "3.4.0"
+    $CurrentVersion = "5.0.1"
 }
 
 Write-Host ""

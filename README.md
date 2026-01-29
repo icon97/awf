@@ -1,4 +1,4 @@
-# 🚀 AWF - Antigravity Workflow Framework v4.0
+# 🚀 AWF - Antigravity Workflow Framework v5.0.1
 
 **The Operating System for Vibe Coders & AI Engineers.**
 *Hệ điều hành dành cho Vibe Coder và Kỹ sư AI.*
@@ -6,9 +6,8 @@
 *Turn your ideas into apps without coding knowledge. AI handles everything.*
 *Biến ý tưởng thành App mà không cần biết code. AI lo trọn gói.*
 
-**v4.0:** 4 Hidden Skills · 12 Non-Tech Mode Workflows · Error Translation · Flowchart Explanations
+**v5.0.1:** 4 Hidden Skills · 20 Workflows · UE5 Game Dev Support · Vietnamese Terminology
 
-[![Website](https://img.shields.io/badge/Website-Live_Demo-cyan?style=for-the-badge)](https://awfweb.pages.dev/)
 [![Install Global](https://img.shields.io/badge/Install-Global-blue?style=for-the-badge)](#-installation-global)
 
 ---
@@ -35,12 +34,12 @@
 
 ---
 
-## ✅ The Solution: AWF 4.0
+## ✅ The Solution: AWF 5.0.1
 
-**AWF is a suite of 16 Slash Commands + 2 Utilities for everyone - from beginners to pros.**
-*AWF là bộ 16 lệnh chính + 2 tiện ích cho mọi người - từ người mới đến chuyên gia.*
+**AWF is a suite of 20+ workflows including 5 game dev workflows for everyone - from beginners to pros.**
+*AWF là bộ 20+ workflow bao gồm 5 workflow game dev cho mọi người - từ người mới đến chuyên gia.*
 
-**What's New in v4.0:**
+**What's New in v5.0.1:**
 
 🎯 **4 Hidden Skills** (tự động, user không cần biết):
 | Skill | Chức năng |
@@ -270,26 +269,26 @@ AI: "Em tổng hợp lại:
 
 ---
 
-## 🆕 v4.0 Non-Tech Mode Examples
+## 🆕 v5.0.1 Non-Tech Mode Examples
 
-### Before (v3.x) vs After (v4.0)
+### Before (v3.x) vs After (v5.0.1)
 
 **Error Messages:**
 ```
 ❌ v3.x: "ECONNREFUSED 127.0.0.1:5432"
-✅ v4.0: "Database chưa bật → Mở app PostgreSQL lên!"
+✅ v5.0.1: "Database chưa bật → Mở app PostgreSQL lên!"
 ```
 
 **Database Schema:**
 ```
 ❌ v3.x: "Table Users với columns: id, email, password_hash"
-✅ v4.0: "📦 App lưu: Thông tin người dùng (email, mật khẩu)"
+✅ v5.0.1: "📦 App lưu: Thông tin người dùng (email, mật khẩu)"
 ```
 
 **Flowchart:**
 ```
 ❌ v3.x: graph TD A[User] --> B[Login]
-✅ v4.0: "📊 Luồng: 1. Mở app → 2. Đăng nhập → 3. Vào Dashboard"
+✅ v5.0.1: "📊 Luồng: 1. Mở app → 2. Đăng nhập → 3. Vào Dashboard"
 ```
 
 ### How to Enable Non-Tech Mode
@@ -305,5 +304,5 @@ echo '{"technical":{"technical_level":"newbie"}}' > .brain/preferences.json
 ---
 
 *Built by Antigravity in Vibe Coding Mode.*
-*AWF v4.0 - For everyone, from beginners to pros.*
-*4 Hidden Skills · 12 Non-Tech Workflows · 16 Slash Commands + 2 Utilities*
+*AWF v5.0.1 - For everyone, from beginners to pros.*
+*4 Hidden Skills · 20 Workflows · UE5 Game Dev Support*

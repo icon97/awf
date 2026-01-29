@@ -1,13 +1,13 @@
 # 📖 AWF User Guide - Hướng dẫn sử dụng cho người mới
 
-> **AWF (Antigravity Workflow Framework) v5.0.0** giúp bạn làm app mà không cần biết code.
+> **AWF (Antigravity Workflow Framework) v5.0.1** giúp bạn làm app mà không cần biết code.
 > Bạn chỉ cần nói ý tưởng, AI sẽ lo phần còn lại.
 >
-> **v5.0.0 Features:** Auto session restore • Adaptive language for all levels • 17+ workflows • **Game Dev Mode (UE5)**
+> **v5.0.1 Features:** Auto session restore • Adaptive language for all levels • 17+ workflows • **Game Dev Mode (UE5)**
 
 ---
 
-## ✨ What's New in v5.0.0?
+## ✨ What's New in v5.0.1?
 
 **Game Dev Mode (UE5):**
 - **🎮 UE5 Project Detection** - AWF automatically detects Unreal Engine 5 projects and switches to Game Dev Mode
@@ -451,7 +451,7 @@ Gõ: /audit
 
 ## 🎮 Game Dev Mode (UE5)
 
-AWF v5.0.0 introduces full support for Unreal Engine 5 game development projects.
+AWF v5.0.1 introduces full support for Unreal Engine 5 game development projects.
 
 ### Automatic Detection
 
