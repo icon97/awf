@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "schema_version": "1.2.0",
+    "awf_version": "4.1.0",
+    "created_at": "2026-01-20T09:00:00Z",
+    "updated_at": "2026-01-29T14:30:00Z"
+  },
+  "project": {
+    "name": "PrototypeRacing",
+    "description": "Racing game với xe Việt Nam - multiplayer, car customization",
+    "type": "game",
+    "status": "development",
+    "repository": "https://github.com/user/PrototypeRacing"
+  },
+  "game_engine": {
+    "engine": "ue5",
+    "version": "5.4",
+    "project_path": "PrototypeRacing.uproject",
+    "modules": [
+      {
+        "name": "PrototypeRacing",
+        "type": "Runtime",
+        "path": "Source/PrototypeRacing/"
+      },
+      {
+        "name": "PrototypeRacingEditor",
+        "type": "Editor",
+        "path": "Source/PrototypeRacingEditor/"
+      }
+    ],
+    "plugins": [
+      { "name": "SimpleCarPhysics", "enabled": true, "path": "Plugins/SimpleCarPhysics/" },
+      { "name": "Nakama", "enabled": true, "path": "Plugins/Nakama/" },
+      { "name": "Minimap", "enabled": true, "path": "Plugins/Minimap/" },
+      { "name": "RTune", "enabled": true, "path": "Plugins/RTune/" }
+    ],
+    "subsystems": [
+      {
+        "name": "UCarDataSubsystem",
+        "type": "GameInstanceSubsystem",
+        "description": "Quản lý dữ liệu xe từ DataTables"
+      },
+      {
+        "name": "UProgressionCenterSubsystem",
+        "type": "GameInstanceSubsystem",
+        "description": "Facade cho progression, currency, unlocks"
+      },
+      {
+        "name": "USettingsSubsystem",
+        "type": "GameInstanceSubsystem",
+        "description": "Quản lý game settings"
+      }
+    ],
+    "build_targets": ["Win64", "Android"]
+  },
+  "tech_stack": {
+    "frontend": {
+      "framework": "UMG (Unreal Motion Graphics)",
+      "language": "C++/Blueprint",
+      "ui_library": "CommonUI",
+      "state_management": "Subsystems",
+      "styling": "UMG Styles"
+    },
+    "backend": {
+      "framework": "Nakama",
+      "language": "Go",
+      "runtime": "Nakama Server"
+    },
+    "database": {
+      "type": "DataTables",
+      "orm": "N/A",
+      "name": "DT_CarData, DT_TrackData"
+    },
+    "infrastructure": {
+      "hosting": "Edgegap",
+      "cdn": "N/A",
+      "ci_cd": "GitHub Actions"
+    }
+  },
+  "architecture": {
+    "pattern": "Subsystem + Interface + Factory",
+    "modules": [
+      {
+        "name": "CarSystem",
+        "path": "Source/PrototypeRacing/Car/",
+        "responsibility": "Vehicle spawning, physics, customization",
+        "dependencies": ["SimpleCarPhysics"]
+      },
+      {
+        "name": "ProgressionSystem",
+        "path": "Source/PrototypeRacing/Progression/",
+        "responsibility": "XP, currency, unlocks, achievements",
+        "dependencies": ["Nakama"]
+      },
+      {
+        "name": "MultiplayerSystem",
+        "path": "Source/PrototypeRacing/Multiplayer/",
+        "responsibility": "Matchmaking, replication, dedicated server",
+        "dependencies": ["Nakama", "Edgegap"]
+      }
+    ],
+    "external_services": [
+      {
+        "name": "Nakama",
+        "purpose": "Multiplayer backend, leaderboards, matchmaking",
+        "env_vars": ["NAKAMA_SERVER_KEY", "NAKAMA_HOST"]
+      },
+      {
+        "name": "Edgegap",
+        "purpose": "Dedicated server hosting",
+        "env_vars": ["EDGEGAP_API_KEY"]
+      }
+    ]
+  },
+  "features": [
+    {
+      "name": "Car Customization",
+      "status": "implemented",
+      "spec_file": "Docs/features/car-customization/requirements/README.md",
+      "files": ["Source/PrototypeRacing/Car/**"],
+      "notes": "Paint, decals, performance upgrades"
+    },
+    {
+      "name": "Vietnamese Tracks",
+      "status": "in_progress",
+      "spec_file": "Docs/features/vietnamese-tracks/requirements/README.md",
+      "files": ["Content/Maps/VN_*"],
+      "notes": "Hanoi, HCMC, Da Nang tracks"
+    },
+    {
+      "name": "Multiplayer Racing",
+      "status": "testing",
+      "spec_file": "Docs/features/multiplayer-racing/requirements/README.md",
+      "files": ["Source/PrototypeRacing/Multiplayer/**"],
+      "notes": "8-player races, dedicated servers"
+    }
+  ],
+  "knowledge_items": {
+    "patterns": [
+      {
+        "name": "Subsystem Pattern",
+        "description": "UGameInstanceSubsystem cho global state",
+        "example_file": "Source/PrototypeRacing/Subsystems/CarDataSubsystem.h"
+      },
+      {
+        "name": "Interface Pattern",
+        "description": "ICarDataProvider, IProgressionDataProvider cho decoupling",
+        "example_file": "Source/PrototypeRacing/Interfaces/ICarDataProvider.h"
+      },
+      {
+        "name": "Factory Pattern",
+        "description": "UVehicleFactory cho vehicle spawning",
+        "example_file": "Source/PrototypeRacing/Car/VehicleFactory.h"
+      }
+    ]
+  },
+  "updated_at": "2026-01-29T14:30:00Z"
+}
+

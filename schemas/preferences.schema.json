@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://awf.dev/schemas/preferences.schema.json",
+  "title": "AWF User Preferences Schema",
+  "description": "User preferences for AI communication and working style",
+  "version": "2.1.0",
+  "type": "object",
+  "properties": {
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "communication": {
+      "type": "object",
+      "description": "How AI communicates",
+      "properties": {
+        "tone": {
+          "type": "string",
+          "enum": ["friendly", "professional", "casual", "custom"],
+          "default": "friendly",
+          "description": "Tone of voice"
+        },
+        "tone_custom": {
+          "type": "string",
+          "description": "Custom tone description if tone=custom"
+        },
+        "persona": {
+          "type": "string",
+          "enum": ["assistant", "mentor", "senior_dev", "partner", "coach", "custom"],
+          "default": "assistant",
+          "description": "AI personality"
+        },
+        "persona_custom": {
+          "type": "string",
+          "description": "Custom persona description if persona=custom"
+        }
+      }
+    },
+    "technical": {
+      "type": "object",
+      "description": "Technical detail preferences",
+      "properties": {
+        "detail_level": {
+          "type": "string",
+          "enum": ["results_only", "simple", "learning", "full_technical"],
+          "default": "simple",
+          "description": "How much technical detail to show"
+        },
+        "autonomy": {
+          "type": "string",
+          "enum": ["ask_often", "balanced", "autonomous"],
+          "default": "ask_often",
+          "description": "How much AI decides on its own"
+        },
+        "quality": {
+          "type": "string",
+          "enum": ["mvp", "production", "enterprise"],
+          "default": "production",
+          "description": "Output quality level"
+        },
+        "technical_level": {
+          "type": "string",
+          "enum": ["newbie", "basic", "technical"],
+          "default": "basic",
+          "description": "User technical proficiency level for language adaptation"
+        }
+      }
+    },
+    "working_style": {
+      "type": "object",
+      "description": "How to work together",
+      "properties": {
+        "pace": {
+          "type": "string",
+          "enum": ["careful", "fast"],
+          "default": "careful",
+          "description": "Work pace preference"
+        },
+        "feedback": {
+          "type": "string",
+          "enum": ["gentle", "direct", "silent"],
+          "default": "gentle",
+          "description": "How AI gives feedback"
+        }
+      }
+    },
+    "custom_rules": {
+      "type": "array",
+      "description": "User-defined custom rules",
+      "items": {
+        "type": "string"
+      }
+    },
+    "game_preferences": {
+      "type": "object",
+      "description": "Game development preferences (only when project.type == 'game')",
+      "properties": {
+        "game_engine": {
+          "type": "string",
+          "enum": ["ue5", "unity", "godot", "none"],
+          "default": "none",
+          "description": "Preferred game engine"
+        },
+        "terminology_mode": {
+          "type": "string",
+          "enum": ["web", "mobile", "game_dev", "game_dev_vi"],
+          "default": "web",
+          "description": "Terminology mode for explanations"
+        },
+        "default_build_target": {
+          "type": "string",
+          "default": "Win64 Development",
+          "description": "Default build target for game builds"
+        },
+        "show_blueprint_help": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Blueprint-specific help and hints"
+        },
+        "preferred_code_mode": {
+          "type": "string",
+          "enum": ["cpp", "blueprint", "hybrid"],
+          "default": "hybrid",
+          "description": "Preferred coding approach for UE5"
+        },
+        "docs_integration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Docs/ 5-phase integration"
+        }
+      }
+    }
+  }
+}

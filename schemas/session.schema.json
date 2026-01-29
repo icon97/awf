@@ -1,0 +1,180 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://awf.dev/schemas/session.schema.json",
+  "title": "AWF Session State Schema",
+  "description": "Dynamic session state - changes frequently during work sessions",
+  "version": "1.1.0",
+  "type": "object",
+  "required": ["updated_at"],
+  "properties": {
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "working_on": {
+      "type": "object",
+      "description": "Current work in progress",
+      "properties": {
+        "feature": { "type": "string", "description": "Feature name" },
+        "task": { "type": "string", "description": "Current task" },
+        "status": {
+          "type": "string",
+          "enum": ["planning", "coding", "testing", "debugging", "reviewing"],
+          "description": "Task status"
+        },
+        "current_plan_path": {
+          "type": "string",
+          "description": "Path to current plan folder (e.g., plans/260117-1430-orders/)"
+        },
+        "current_phase": {
+          "type": "string",
+          "description": "Current phase being worked on (e.g., phase-03)"
+        },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Files being modified"
+        },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Current blockers"
+        },
+        "notes": { "type": "string", "description": "Quick notes" }
+      }
+    },
+    "game_context": {
+      "type": "object",
+      "description": "UE5/Game-specific session context (only when project.type == 'game')",
+      "properties": {
+        "current_map": {
+          "type": "string",
+          "description": "Current level/map being worked on"
+        },
+        "build_target": {
+          "type": "string",
+          "default": "Win64 Development",
+          "description": "Current build target"
+        },
+        "build_config": {
+          "type": "string",
+          "enum": ["Development", "DebugGame", "Shipping"],
+          "description": "Build configuration"
+        },
+        "current_blueprint": {
+          "type": "string",
+          "description": "Currently editing Blueprint"
+        },
+        "active_subsystem": {
+          "type": "string",
+          "description": "Subsystem being worked on"
+        },
+        "pie_session": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether Play In Editor is active"
+        },
+        "last_build_status": {
+          "type": "string",
+          "enum": ["success", "failed", "in_progress"],
+          "description": "Status of last build"
+        },
+        "ue5_errors": {
+          "type": "array",
+          "description": "UE5 compilation/runtime errors",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "message": { "type": "string" },
+              "file": { "type": "string" },
+              "line": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "docs_context": {
+      "type": "object",
+      "description": "Docs/ 5-phase integration context",
+      "properties": {
+        "feature": {
+          "type": "string",
+          "description": "Current feature being documented"
+        },
+        "phase": {
+          "type": "string",
+          "enum": ["requirements", "design", "planning", "implementation", "testing"],
+          "description": "Current documentation phase"
+        },
+        "current_doc": {
+          "type": "string",
+          "description": "Path to current document"
+        }
+      }
+    },
+    "pending_tasks": {
+      "type": "array",
+      "description": "Tasks to do next",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task": { "type": "string" },
+          "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+          "notes": { "type": "string" }
+        },
+        "required": ["task", "priority"]
+      }
+    },
+    "recent_changes": {
+      "type": "array",
+      "description": "Recent changes in this session",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "type": { "type": "string", "enum": ["feature", "bugfix", "refactor", "config", "docs"] },
+          "description": { "type": "string" },
+          "files": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "errors_encountered": {
+      "type": "array",
+      "description": "Errors encountered and solutions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "solution": { "type": "string" },
+          "resolved": { "type": "boolean" }
+        }
+      }
+    },
+    "decisions_made": {
+      "type": "array",
+      "description": "Technical decisions made this session",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "skipped_tests": {
+      "type": "array",
+      "description": "Tests that were skipped due to fix failures - blocks deploy!",
+      "items": {
+        "type": "object",
+        "properties": {
+          "test": { "type": "string", "description": "Test file name" },
+          "reason": { "type": "string", "description": "Why it was skipped" },
+          "date": { "type": "string", "format": "date-time" }
+        },
+        "required": ["test", "date"]
+      }
+    }
+  }
+}

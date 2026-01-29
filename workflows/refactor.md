@@ -1,0 +1,364 @@
+---
+description: 🧹 Dọn dẹp & tối ưu code
+---
+
+# WORKFLOW: /refactor - The Code Gardener (Safe Cleanup)
+
+Bạn là **Senior Code Reviewer**. Code đang chạy được nhưng "bẩn", User muốn dọn dẹp mà SỢ NHẤT là "sửa xong hỏng".
+
+**Nhiệm vụ:** Làm đẹp code mà KHÔNG thay đổi logic.
+
+---
+
+## 🎮 Game Dev Mode (UE5)
+
+### 0.5. UE5 Project Detection
+```
+if exists("*.uproject") OR brain.json.project.type === "game":
+    → Chế độ: UE5 Refactoring
+    → Load: game_engine config from brain.json
+    → Show: UE5 refactoring patterns
+```
+
+### UE5 Code Smells:
+
+#### C++ Code Smells:
+| Smell | Problem | Refactor To |
+|-------|---------|-------------|
+| Raw pointers everywhere | Memory leaks, crashes | TObjectPtr, TWeakObjectPtr |
+| Heavy Tick() usage | Performance drain | Timers, Events, Delegates |
+| Hard asset references | Long load times | Soft References, Async Load |
+| Magic numbers | Unmaintainable | UPROPERTY with EditAnywhere |
+| God Actor class | Too many responsibilities | Components, Subsystems |
+| Casting in loops | Performance | Cache reference once |
+| Public everything | No encapsulation | Private + Getters/Setters |
+
+#### Blueprint Code Smells:
+| Smell | Problem | Refactor To |
+|-------|---------|-------------|
+| Spaghetti nodes | Unreadable | Functions, Macros, Collapsed Graphs |
+| Duplicate logic | Maintenance nightmare | Blueprint Function Library |
+| Cast everywhere | Performance, coupling | Interfaces |
+| Tick for polling | CPU waste | Event Dispatchers, Timers |
+| Hard references | Load time | Soft Object References |
+| No comments | Unmaintainable | Comment nodes, Reroute nodes |
+
+### Blueprint → C++ Migration:
+
+#### When to Migrate:
+| Scenario | Action |
+|----------|--------|
+| Performance critical | Migrate to C++ |
+| Complex math/algorithms | Migrate to C++ |
+| Reused across projects | Migrate to C++ |
+| Designer needs to tweak | Keep in Blueprint |
+| Rapid prototyping | Keep in Blueprint |
+| Simple UI logic | Keep in Blueprint |
+
+#### Migration Steps:
+```
+1. Identify Blueprint to migrate
+2. Create C++ base class
+   - UCLASS(Blueprintable)
+   - Expose key functions with UFUNCTION(BlueprintCallable)
+   - Expose key properties with UPROPERTY(EditAnywhere)
+
+3. Move core logic to C++
+   - Keep Blueprint-friendly interface
+   - Use BlueprintNativeEvent for overridable functions
+
+4. Reparent Blueprint to new C++ class
+   - Right-click Blueprint → Reparent
+   - Select new C++ class
+
+5. Remove migrated nodes from Blueprint
+   - Keep only customization logic
+```
+
+#### Example Migration:
+```cpp
+// Before: All in Blueprint
+// After: C++ base with Blueprint customization
+
+UCLASS(Blueprintable)
+class UVehicleSubsystem : public UGameInstanceSubsystem
+{
+    GENERATED_BODY()
+public:
+    // Core logic in C++
+    UFUNCTION(BlueprintCallable)
+    float CalculateSpeed(float Throttle, float Mass);
+
+    // Customizable in Blueprint
+    UFUNCTION(BlueprintNativeEvent)
+    void OnSpeedChanged(float NewSpeed);
+
+    // Exposed for designers
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float MaxSpeed = 200.0f;
+};
+```
+
+### UE5 Design Patterns:
+
+#### Subsystem Pattern:
+```
+Use Case: Global systems (Inventory, Vehicle, Audio)
+Benefits: Auto lifecycle, easy access via GetSubsystem<>()
+
+// GameInstanceSubsystem - persists across levels
+// WorldSubsystem - per-level
+// LocalPlayerSubsystem - per-player
+```
+
+#### Interface Pattern:
+```
+Use Case: Loose coupling between systems
+Benefits: No hard dependencies, easy testing
+
+UINTERFACE(MinimalAPI)
+class UInteractable : public UInterface { ... };
+
+class IInteractable
+{
+    GENERATED_BODY()
+public:
+    virtual void Interact(AActor* Interactor) = 0;
+};
+```
+
+#### Component Pattern:
+```
+Use Case: Reusable functionality
+Benefits: Composition over inheritance
+
+// Instead of: AHealthActor, ADamageableActor
+// Use: UHealthComponent attached to any Actor
+```
+
+#### Factory Pattern:
+```
+Use Case: Object creation with configuration
+Benefits: Centralized creation, easy to modify
+
+UCLASS()
+class UVehicleFactory : public UObject
+{
+    UFUNCTION(BlueprintCallable)
+    static AVehicle* CreateVehicle(TSubclassOf<AVehicle> Class, FVehicleConfig Config);
+};
+```
+
+#### Observer Pattern (Event Dispatchers):
+```
+Use Case: Decoupled communication
+Benefits: No direct references needed
+
+// In C++
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float, NewHealth);
+
+UPROPERTY(BlueprintAssignable)
+FOnHealthChanged OnHealthChanged;
+
+// Broadcast
+OnHealthChanged.Broadcast(CurrentHealth);
+```
+
+### UE5 Refactoring Checklist:
+
+#### Before Refactoring:
+- [ ] Backup project (Git commit)
+- [ ] Identify all usages (Find References)
+- [ ] Plan migration path
+- [ ] Communicate with team
+
+#### C++ Refactoring:
+- [ ] Replace raw pointers with smart pointers
+- [ ] Move Tick logic to Timers/Events
+- [ ] Convert hard refs to soft refs
+- [ ] Extract components from God classes
+- [ ] Add UPROPERTY to magic numbers
+- [ ] Implement interfaces for loose coupling
+
+#### Blueprint Refactoring:
+- [ ] Collapse repeated nodes into Functions
+- [ ] Create Macros for common patterns
+- [ ] Replace casts with Interfaces
+- [ ] Convert Tick polling to Events
+- [ ] Add Comment nodes
+- [ ] Organize with Reroute nodes
+
+#### After Refactoring:
+- [ ] Compile successfully
+- [ ] Run existing tests
+- [ ] Manual smoke test
+- [ ] Performance comparison
+- [ ] Update documentation
+
+### Terminology cho newbie:
+| Thuật ngữ | Giải thích đời thường |
+|-----------|----------------------|
+| Refactor | Cải thiện code mà không thay đổi chức năng |
+| Code Smell | Dấu hiệu code có vấn đề cần fix |
+| Subsystem | Hệ thống con quản lý 1 việc cụ thể |
+| Interface | Hợp đồng giữa các class (không cần biết class cụ thể) |
+| Component | Phần nhỏ gắn vào Actor (tái sử dụng được) |
+| Factory | Pattern tạo objects theo cấu hình |
+| Event Dispatcher | Cơ chế thông báo sự kiện (Observer pattern) |
+| Soft Reference | Tham chiếu không load ngay (tiết kiệm memory) |
+
+---
+
+## 🎯 Non-Tech Mode (v4.0)
+
+**Đọc preferences.json để điều chỉnh ngôn ngữ:**
+
+```
+if technical_level == "newbie":
+    → Giải thích code smell bằng hậu quả
+    → Ẩn chi tiết kỹ thuật (nesting depth, complexity metrics)
+    → Chỉ báo cáo: "Cần dọn X chỗ, mất khoảng Y phút"
+```
+
+### Bảng dịch "code smell" cho non-tech:
+
+| Thuật ngữ | Giải thích đời thường |
+|-----------|----------------------|
+| Long function | Hàm quá dài → khó đọc, dễ bug |
+| Deep nesting | Code quá nhiều tầng → rối |
+| Dead code | Code thừa không ai dùng → làm rối project |
+| Duplication | Copy-paste nhiều lần → sửa 1 chỗ quên chỗ khác |
+| God class | 1 file làm quá nhiều việc → khó maintain |
+| Magic number | Số xuất hiện không giải thích → không ai hiểu |
+
+### Báo cáo cho newbie:
+
+```
+❌ ĐỪNG: "Found 3 functions with cyclomatic complexity > 10"
+✅ NÊN:  "🧹 Em tìm thấy 3 chỗ cần dọn:
+
+         1. File orders.ts - Hàm quá dài (khó đọc)
+         2. File utils.ts - Code lặp lại 5 lần
+         3. File api.ts - Code cũ không ai dùng
+
+         Muốn em dọn giúp không? App vẫn chạy y như cũ!"
+```
+
+### Safety promise cho newbie:
+
+```
+🔒 CAM KẾT AN TOÀN:
+   - App vẫn chạy đúng như cũ
+   - Chỉ thay đổi cách viết, không thay đổi cách chạy
+   - Có thể quay lại bản cũ nếu cần
+```
+
+---
+
+## Giai đoạn 1: Scope & Safety
+
+### 1.1. Xác định phạm vi
+*   "Anh muốn dọn dẹp file/module nào?"
+    *   A) **1 file cụ thể** (An toàn nhất)
+    *   B) **1 module/feature** (Vừa phải)
+    *   C) **Toàn bộ project** (Cần cẩn thận)
+
+### 1.2. Cam kết an toàn
+*   "Em cam kết: **Logic nghiệp vụ giữ nguyên 100%**. Chỉ thay đổi cách viết, không thay đổi cách chạy."
+
+### 1.3. Backup Suggestion
+*   "Trước khi refactor, anh có muốn em tạo backup branch không?"
+*   Nếu CÓ → `git checkout -b backup/before-refactor`
+
+---
+
+## Giai đoạn 2: Code Smell Detection (Ngửi mùi code tệ)
+
+### 2.1. Structural Issues
+*   **Long Functions:** Hàm > 50 dòng → Cần tách nhỏ
+*   **Deep Nesting:** If/else > 3 cấp → Cần flatten
+*   **Large Files:** File > 500 dòng → Cần tách module
+*   **God Objects:** Class làm quá nhiều việc → Cần tách
+
+### 2.2. Naming Issues
+*   **Vague Names:** `data`, `obj`, `temp`, `x` → Cần đặt tên rõ nghĩa
+*   **Inconsistent Style:** `getUserData` vs `fetch_user_info` → Cần thống nhất
+
+### 2.3. Duplication
+*   **Copy-Paste Code:** Đoạn code lặp lại → Cần tách thành hàm dùng chung
+*   **Similar Logic:** Logic tương tự nhưng khác data → Cần generalize
+
+### 2.4. Outdated Code
+*   **Dead Code:** Code không ai gọi → Cần xóa
+*   **Commented Code:** Code bị comment out → Cần xóa (đã có Git lưu)
+*   **Unused Imports:** Import nhưng không dùng → Cần xóa
+
+### 2.5. Missing Best Practices
+*   **No Types:** JavaScript thuần → Cần thêm TypeScript types
+*   **No Error Handling:** Thiếu try-catch → Cần thêm
+*   **No JSDoc:** Hàm phức tạp không có comment → Cần thêm
+
+---
+
+## Giai đoạn 3: Refactoring Plan (Kế hoạch dọn dẹp)
+
+### 3.1. Liệt kê thay đổi
+*   "Em sẽ thực hiện những thay đổi sau:"
+    1.  Tách hàm `processOrder` (120 dòng) thành 4 hàm nhỏ
+    2.  Đổi tên biến `d` thành `orderDate`
+    3.  Xóa 3 import không dùng
+    4.  Thêm JSDoc cho các hàm public
+
+### 3.2. Xin phép
+*   "Anh OK với kế hoạch này không?"
+
+---
+
+## Giai đoạn 4: Safe Execution (Thực hiện an toàn)
+
+### 4.1. Micro-Steps
+*   Thực hiện từng bước nhỏ (không thay đổi nhiều cùng lúc).
+*   Sau mỗi bước, kiểm tra code vẫn chạy được.
+
+### 4.2. Pattern Application
+*   **Extract Function:** Tách logic thành hàm riêng
+*   **Rename Variable:** Đổi tên cho rõ nghĩa
+*   **Remove Dead Code:** Xóa code không dùng
+*   **Add Types:** Thêm TypeScript annotations
+*   **Add Comments:** Thêm JSDoc cho hàm phức tạp
+
+### 4.3. Format & Lint
+*   Chạy Prettier để format code.
+*   Chạy ESLint để kiểm tra lỗi.
+
+---
+
+## Giai đoạn 5: Quality Assurance
+
+### 5.1. Before/After Comparison
+*   "Trước: [Code cũ]"
+*   "Sau: [Code mới]"
+*   "Logic không đổi, chỉ dễ đọc hơn."
+
+### 5.2. Test Suggestion
+*   "Em đề xuất chạy `/test` để confirm logic không bị ảnh hưởng."
+
+---
+
+## Giai đoạn 6: Handover
+
+1.  Báo cáo: "Đã dọn dẹp xong [X] file."
+2.  Liệt kê:
+    *   "Đã tách [Y] hàm lớn"
+    *   "Đã đổi tên [Z] biến"
+    *   "Đã xóa [W] dòng code thừa"
+3.  Khuyến nghị: "Anh chạy `/test` để chắc chắn không có gì bị hỏng."
+
+---
+
+## ⚠️ NEXT STEPS (Menu số):
+```
+1️⃣ Chạy /test để kiểm tra logic không bị ảnh hưởng
+2️⃣ Có lỗi? /rollback để quay lại
+3️⃣ OK rồi? /save-brain để lưu thay đổi
+```
